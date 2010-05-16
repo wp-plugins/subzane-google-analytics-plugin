@@ -4,7 +4,7 @@ Plugin Name: SubZane Google Analytics Plugin
 Plugin URI: http://www.andreasnorman.se/wordpress-plugins/sz-google-analytics-plugin/
 Description: This widget displays the most popular posts on your blog according to Google Analytics. You'll need to install "Google Analytics Dashboard Plugin" in order for this to work.
 Author: Andreas Norman
-Version: 0.6
+Version: 0.6.1
 Author URI: http://www.andreasnorman.se
 */
 
@@ -30,10 +30,14 @@ function sz_google_analytics_widget_init() {
 		echo $before_title . $title . $after_title;
 		echo "<ul>";
 		foreach($pages as $page) {
-			if ($howtrim == 'replace') {
-				$title = str_replace($trim, '', $page['title']);
+			if (!empty($trim)) {
+				if ($howtrim == 'replace') {
+					$title = str_replace($trim, '', $page['title']);
+				} else {
+					$title = preg_replace($trim, '', $page['title']);
+				}
 			} else {
-				$title = preg_replace($trim, '', $page['title']);
+				$title = $page['title'];
 			}
 			echo '<li><a '.$nofollow_rel.$onclick_event.' href="' . $page['url'] . '">' . $title . '</a></li>';
 		}
@@ -56,10 +60,14 @@ function sz_google_analytics_widget_init() {
 		$pages = sz_google_analytics_getMostPopular($what, $start_date, $end_date, $showpages);
 		echo "<ul>";
 		foreach($pages as $page) {
-			if ($howtrim == 'replace') {
-				$title = str_replace($trim, '', $page['title']);
+			if (!empty($trim)) {
+				if ($howtrim == 'replace') {
+					$title = str_replace($trim, '', $page['title']);
+				} else {
+					$title = preg_replace($trim, '', $page['title']);
+				}
 			} else {
-				$title = preg_replace($trim, '', $page['title']);
+				$title = $page['title'];
 			}
 			echo '<li><a '.$nofollow_rel.$onclick_event.' href="' . $page['url'] . '">' . $title . '</a></li>';
 		}

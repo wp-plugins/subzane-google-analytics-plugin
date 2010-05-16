@@ -4,7 +4,7 @@ Donate link:
 Tags: widget, google, analytics, statistics, top, list
 Requires at least: 2.5
 Tested up to: 2.9.2
-Stable tag: 0.5
+Stable tag: 0.6
 
 This plugin allows you to list the most popular posts and pages of your blog according to your Google Analytics statistics.
 
@@ -34,6 +34,10 @@ For this plugin to work you will need to install Google Analytics Dashboard firs
 6. Done!
 
 == Changelog ==
+
+= 0.6 = 
+* Support for regular expressions when trimming titles.
+* List popular pages for this or last year now possible.
 
 = 0.5 = 
 * Initial beta release. Yay!

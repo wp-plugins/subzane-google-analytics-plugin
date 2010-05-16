@@ -4,7 +4,7 @@ Plugin Name: SubZane Google Analytics Plugin
 Plugin URI: http://www.andreasnorman.se/wordpress-plugins/sz-google-analytics-plugin/
 Description: This widget displays the most popular posts on your blog according to Google Analytics. You'll need to install "Google Analytics Dashboard Plugin" in order for this to work.
 Author: Andreas Norman
-Version: 0.5
+Version: 0.6
 Author URI: http://www.andreasnorman.se
 */
 
@@ -30,11 +30,15 @@ function sz_google_analytics_widget_init() {
 		echo $before_title . $title . $after_title;
 		echo "<ul>";
 		foreach($pages as $page) {
-			$title = str_replace($trim, '', $page['title']);
+			if ($howtrim == 'replace') {
+				$title = str_replace($trim, '', $page['title']);
+			} else {
+				$title = preg_replace($trim, '', $page['title']);
+			}
 			echo '<li><a '.$nofollow_rel.$onclick_event.' href="' . $page['url'] . '">' . $title . '</a></li>';
 		}
 		echo "</ul>";
-		echo '<div class="sz-credits"><a target="_blank" href="http://www.andreasnorman.se">Plugin by Andreas Norman</a></div>';
+		echo '<div class="sz-credits"><a target="_blank" href="http://www.andreasnorman.se/?utm_source=GoogleAnalyticsPlugin&utm_medium=WidgetLink&utm_campaign=GoogleAnalyticsPlugin">Plugin by Andreas Norman</a></div>';
 		echo $after_widget;
 	}
 	
@@ -47,11 +51,16 @@ function sz_google_analytics_widget_init() {
 		$nofollow_rel = empty($options['nofollow']) ? '' : ' rel="'.$options['nofollow'].'"';
 		$ignore = str_replace(' ', '', $options['ignore']);
 		$what = empty($options['what']) ? 'lastweek' : $options['what'];
+		$howtrim =  empty($options['howtrim']) ? 'replace' : $options['howtrim'];
 		
 		$pages = sz_google_analytics_getMostPopular($what, $start_date, $end_date, $showpages);
 		echo "<ul>";
 		foreach($pages as $page) {
-			$title = str_replace($trim, '', $page['title']);
+			if ($howtrim == 'replace') {
+				$title = str_replace($trim, '', $page['title']);
+			} else {
+				$title = preg_replace($trim, '', $page['title']);
+			}
 			echo '<li><a '.$nofollow_rel.$onclick_event.' href="' . $page['url'] . '">' . $title . '</a></li>';
 		}
 		echo "</ul>";
@@ -70,6 +79,12 @@ function sz_google_analytics_widget_init() {
 			list($start_date, $end_date) = sz_google_analytics_getweek(0);
 		} else if ($what == 'thismonth') {
 			list($start_date, $end_date) = sz_google_analytics_getmonth(0);
+		} else if ($what == 'thisyear') {
+			$start_date = date('Y') . '-01-01';
+			$end_date = date('Y-m-d');
+		} else if ($what == 'lastyear') {
+			$start_date = (date('Y')-1) . '-01-01';
+			$end_date = (date('Y')-1) . '-12-31';
 		}
 		//echo $start_date.'<br>';
 		//echo $end_date.'<br>';
@@ -120,6 +135,7 @@ function sz_google_analytics_widget_init() {
 			$options['nofollow'] = $_POST['sz_google_analytics_nofollow'];
 			$options['ignore'] = $_POST['sz_google_analytics_ignore'];
 			$options['what'] = $_POST['sz_google_analytics_what'];
+			$options['howtrim'] = $_POST['sz_google_analytics_howtrim'];
 			
 			update_option('sz_google_analytics_settings', $options);
 		}
@@ -131,6 +147,7 @@ function sz_google_analytics_widget_init() {
 		$ignore = str_replace(' ', '', $options['ignore']);
 		$what = $options['what'];
 		$nofollow = empty($options['nofollow']) ? 0 : $options['nofollow'];
+		$howtrim =  empty($options['howtrim']) ? 'replace' : $options['howtrim'];
 	  ?>
 
 	   <div class="wrap">
@@ -154,6 +171,16 @@ function sz_google_analytics_widget_init() {
 						<option value="lastmonth" '.($what=='lastmonth'?'selected="selected"':'').' >Top pages last month</option>
 						<option value="thisweek" '.($what=='thisweek'?'selected="selected"':'').' >Top pages this week</option>
 						<option value="thismonth" '.($what=='thismonth'?'selected="selected"':'').' >Top pages this month</option>
+						<option value="lastyear" '.($what=='lastyear'?'selected="selected"':'').' >Top pages last year</option>
+						<option value="thisyear" '.($what=='thisyear'?'selected="selected"':'').' >Top pages this year</option>
+					</select>
+				</label>
+
+				<label style="line-height: 35px; display: block;">
+					' . __('How to trim titles:') . '<br/>
+					<select name="sz_google_analytics_howtrim" id="sz_google_analytics_howtrim">
+						<option value="regexp" '.($howtrim=='regexp'?'selected="selected"':'').' >Regular expression</option>
+						<option value="replace" '.($howtrim=='replace'?'selected="selected"':'').' >Simple trim</option>
 					</select>
 				</label>
 
@@ -222,6 +249,7 @@ function sz_google_analytics_widget_init() {
 			$options['nofollow'] = $_POST['sz_google_analytics_nofollow'];
 			$options['ignore'] = $_POST['sz_google_analytics_ignore'];
 			$options['what'] = $_POST['sz_google_analytics_what'];
+			$options['howtrim'] = $_POST['sz_google_analytics_howtrim'];
 			
 			update_option('sz_google_analytics_widget', $options);
 		}
@@ -235,6 +263,7 @@ function sz_google_analytics_widget_init() {
 		$ignore = str_replace(' ', '', $options['ignore']);
 		$what = $options['what'];
 		$nofollow = empty($options['nofollow']) ? 0 : $options['nofollow'];
+		$howtrim =  empty($options['howtrim']) ? 'replace' : $options['howtrim'];
 
 		echo '
 			<label style="line-height: 35px; display: block;" for="sz_google_analytics_widget_title">
@@ -254,6 +283,16 @@ function sz_google_analytics_widget_init() {
 					<option value="lastmonth" '.($what=='lastmonth'?'selected="selected"':'').' >Top pages last month</option>
 					<option value="thisweek" '.($what=='thisweek'?'selected="selected"':'').' >Top pages this week</option>
 					<option value="thismonth" '.($what=='thismonth'?'selected="selected"':'').' >Top pages this month</option>
+					<option value="lastyear" '.($what=='lastyear'?'selected="selected"':'').' >Top pages last year</option>
+					<option value="thisyear" '.($what=='thisyear'?'selected="selected"':'').' >Top pages this year</option>
+				</select>
+			</label>
+
+			<label style="line-height: 35px; display: block;">
+				' . __('How to trim titles:') . '<br/>
+				<select name="sz_google_analytics_howtrim" id="sz_google_analytics_howtrim">
+					<option value="regexp" '.($howtrim=='regexp'?'selected="selected"':'').' >Regular expression</option>
+					<option value="replace" '.($howtrim=='replace'?'selected="selected"':'').' >Simple trim</option>
 				</select>
 			</label>
 

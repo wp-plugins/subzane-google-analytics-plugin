@@ -4,7 +4,7 @@ Plugin Name: SubZane Google Analytics Plugin
 Plugin URI: http://www.andreasnorman.se/wordpress-plugins/sz-google-analytics-plugin/
 Description: This widget displays the most popular posts on your blog according to Google Analytics. You'll need to install "Google Analytics Dashboard Plugin" in order for this to work.
 Author: Andreas Norman
-Version: 0.6.1
+Version: 0.6.2
 Author URI: http://www.andreasnorman.se
 */
 
@@ -42,7 +42,7 @@ function sz_google_analytics_widget_init() {
 			echo '<li><a '.$nofollow_rel.$onclick_event.' href="' . $page['url'] . '">' . $title . '</a></li>';
 		}
 		echo "</ul>";
-		echo '<div class="sz-credits"><a target="_blank" href="http://www.andreasnorman.se/?utm_source=GoogleAnalyticsPlugin&utm_medium=WidgetLink&utm_campaign=GoogleAnalyticsPlugin">Plugin by Andreas Norman</a></div>';
+		#echo '<div class="sz-credits"><a target="_blank" href="http://www.andreasnorman.se/?utm_source=GoogleAnalyticsPlugin&utm_medium=WidgetLink&utm_campaign=GoogleAnalyticsPlugin">Plugin by Andreas Norman</a></div>';
 		echo $after_widget;
 	}
 	

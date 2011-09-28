@@ -1,6 +1,6 @@
-=== SubZane Google Analytics Plugin ===
+=== Norman Google Analytics Plugin ===
 Contributors: Andreas Norman
-Donate link: 
+Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=AHFRTAMMVBRGS
 Tags: widget, google, analytics, statistics, top, list
 Requires at least: 2.5
 Tested up to: 3.0.4

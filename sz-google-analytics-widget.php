@@ -1,7 +1,21 @@
 <?php
-/*
-Plugin Name: SubZane Google Analytics Plugin
-Plugin URI: http://www.andreasnorman.se/wordpress-plugins/sz-google-analytics-plugin/
+/*  Copyright 2011  Andreas Norman
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License, version 2, as 
+    published by the Free Software Foundation.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Generalx Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+
+Plugin Name: Norman Google Analytics Plugin
+Plugin URI: http://www.andreasnorman.se/norman-google-analytics-plugin/
 Description: This widget displays the most popular posts on your blog according to Google Analytics. You'll need to install "Google Analytics Dashboard Plugin" in order for this to work.
 Author: Andreas Norman
 Version: 0.6.2
